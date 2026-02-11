@@ -43,7 +43,7 @@ title: German Melee - Events & Turniere
   <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     <!-- Events are fetched from Google Sheets via _data/events.js -->
     {%- for event in events %}
-    {%- if event.Titel %}
+    {%- if event.Titel and event.Sichtbar !== "FALSE" %}
     <div class="group bg-slate-800 rounded-lg overflow-hidden border border-slate-700 hover:border-orange-500 transition">
       <div class="p-6 space-y-4">
         <div class="flex flex-wrap gap-2">

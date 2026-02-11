@@ -5,8 +5,12 @@ import postcss from "postcss";
 const processor = postcss([tailwindcss()]);
 
 export default function (eleventyConfig) {
-	// Compile tailwind before eleventy processes the files
-	eleventyConfig.on("eleventy.before", async () => {
+	eleventyConfig.addPassthroughCopy({
+		"src/assets": "assets",
+	});
+
+	// Compile tailwind after passthrough copy so it overwrites the source CSS.
+	eleventyConfig.on("eleventy.after", async () => {
 		if (!fs.existsSync("./_site/assets/styles")) {
 			fs.mkdirSync("./_site/assets/styles", { recursive: true });
 		}

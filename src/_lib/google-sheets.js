@@ -1,7 +1,7 @@
 /**
  * Fetches a sheet from Google Spreadsheet
  * @param {string} sheetName - The name of the sheet to fetch
- * @returns {Promise<string[][]>} - 2D array of cell values
+ * @returns {Promise<Object[]>} - Array of objects with headers as keys
  */
 export async function getSpreadsheet(sheetName) {
 	const sheetId = process.env.GOOGLE_SPREADSHEET_ID;
@@ -24,22 +24,12 @@ export async function getSpreadsheet(sheetName) {
 	}
 
 	const json = await response.json();
-	return json.values || [];
-}
+	const [headerRow, ...dataRows] = json.values || [];
 
-/**
- * Converts sheet rows to array of objects using header row as keys
- * @param {string[]} headerRow - Array of column headers
- * @param {string[][]} rows - Array of data rows
- * @returns {Object[]} - Array of objects with headers as keys
- */
-export const convertSheetToObjects = (headerRow, rows) =>
-	rows.map((row) =>
+	return dataRows.map((row) =>
 		headerRow.reduce(
-			(prev, cur, index) => ({
-				...prev,
-				[cur]: row[index] || "",
-			}),
+			(prev, cur, index) => ({ ...prev, [cur]: row[index] || "" }),
 			{},
 		),
 	);
+}

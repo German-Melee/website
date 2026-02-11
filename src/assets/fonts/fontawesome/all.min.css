@@ -1,0 +1,56 @@
+/* Font Awesome 6 Brands - Minimal CSS for social media icons */
+:host, :root {
+  --fa-style-family-brands: "Font Awesome 6 Brands";
+  --fa-font-brands: normal 400 1em/1 "Font Awesome 6 Brands";
+  --fa-display: inline-block;
+}
+
+.fa,
+.fab,
+.fa-brands {
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  display: var(--fa-display);
+  font-style: normal;
+  font-variant: normal;
+  font-weight: 400;
+  line-height: 1;
+  text-rendering: auto;
+}
+
+.fab,
+.fa-brands {
+  font-family: "Font Awesome 6 Brands";
+}
+
+/* Icon content definitions */
+.fa-discord:before {
+  content: "\f392";
+}
+
+.fa-twitch:before {
+  content: "\f1e8";
+}
+
+.fa-x-twitter:before {
+  content: "\e61b";
+}
+
+/* Size classes */
+.fa-1-5x {
+  font-size: 1.5em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+/* Font face declaration */
+@font-face {
+  font-family: "Font Awesome 6 Brands";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url(./webfonts/fa-brands-400.woff2) format("woff2"),
+       url(./webfonts/fa-brands-400.ttf) format("truetype");
+}

@@ -19,6 +19,17 @@ title: German Melee - Events & Turniere
       <li><a href="#" class="hover:text-orange-500 transition">MONTHLIES</a></li>
       <li><a href="#" class="hover:text-orange-500 transition">REGIONALS</a></li>
       <li><a href="#" class="hover:text-orange-500 transition">MAJORS</a></li>
+      <li class="border-l border-slate-700 pl-8 flex gap-4">
+        <a href="{{ configuration.discord }}" target="_blank" rel="noopener noreferrer" title="Discord" class="hover:text-orange-500 transition">
+          <i class="fab fa-discord fa-lg"></i>
+        </a>
+        <a href="{{ configuration.twitch }}" target="_blank" rel="noopener noreferrer" title="Twitch" class="hover:text-orange-500 transition">
+          <i class="fab fa-twitch fa-lg"></i>
+        </a>
+        <a href="{{ configuration.twitter }}" target="_blank" rel="noopener noreferrer" title="Twitter" class="hover:text-orange-500 transition">
+          <i class="fab fa-x-twitter fa-lg"></i>
+        </a>
+      </li>
     </ul>
   </nav>
 </header>
@@ -32,7 +43,7 @@ title: German Melee - Events & Turniere
   <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
     <!-- Events are fetched from Google Sheets via _data/events.js -->
     {%- for event in events %}
-    {%- if event['Startgg Slug'] %}
+    {%- if event.Titel %}
     <div class="group bg-slate-800 rounded-lg overflow-hidden border border-slate-700 hover:border-orange-500 transition">
       <div class="p-6 space-y-4">
         <div class="flex flex-wrap gap-2">
@@ -58,11 +69,15 @@ title: German Melee - Events & Turniere
         
         <a
           class="w-full mt-6 bg-orange-600 hover:bg-orange-700 transition text-white font-semibold py-2 px-4 rounded uppercase text-sm text-center"
-          href="https://www.start.gg/tournament/{{ event['Startgg Slug'] }}"
+          href="{{ event.Link }}"
           target="_blank"
           rel="noopener noreferrer"
         >
+          {%- if event.Link and 'start.gg' in event.Link %}
           Mehr Details & Anmeldung
+          {%- else %}
+          Mehr Details
+          {%- endif %}
         </a>
       </div>
     </div>

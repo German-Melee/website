@@ -1,5 +1,6 @@
 node_modules
 .env
+og-images-cache.json
 
 # 11ty build output
 _site/

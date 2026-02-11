@@ -18,6 +18,9 @@ export default function (eleventyConfig) {
 		});
 
 		fs.writeFileSync("./_site/assets/styles/index.css", result.css);
+
+		// Create .nojekyll file to prevent GitHub Pages from using Jekyll
+		fs.writeFileSync("./_site/.nojekyll", "");
 	});
 
 	return {

@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ title }}</title>
+    
+    <!-- Open Graph / Discord -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="{{ title or 'German Melee' }}">
+    <meta property="og:description" content="{{ description or 'Alles zur deutschen Super Smash Bros. Melee Szene.' }}">
+    <meta property="og:image" content="{{ image or '/assets/german-melee.webp' }}">
+    <meta property="og:url" content="{{ url or '/' }}">
+    
+    <!-- Twitter / Discord additional -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ title or 'German Melee' }}">
+    <meta name="twitter:description" content="{{ description or 'Alles zur deutschen Super Smash Bros. Melee Szene.' }}">
+    <meta name="twitter:image" content="{{ image or '/assets/german-melee.webp' }}">
+    
     <link rel="stylesheet" href="/assets/styles/index.css">
     <link rel="icon" href="/assets/favicon.ico" sizes="any">
     <link rel="icon" href="/assets/favicon-32x32.png" type="image/png" sizes="32x32">

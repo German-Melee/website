@@ -27,71 +27,13 @@ title: German Melee - Events & Turniere
   </section>
 
   <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-    <!-- Event Card Template -->
-    {%- set events = [
-      {
-        title: "TEUTO TECH CHASE",
-        date: "21.02.2026 | 10:00 - 20:00 Uhr",
-        location: "Bielefeld, Deutschland",
-        category: "Weekly",
-        stage: "Singles",
-        tags: ["Weekly", "Singles"]
-      },
-      {
-        title: "ARISE ARCADE DOJO",
-        date: "28.02.2026 | 10:00 - 20:00 Uhr",
-        location: "Augsburg, Deutschland",
-        category: "Monthly",
-        stage: "Singles",
-        tags: ["Monthly", "Singles"]
-      },
-      {
-        title: "HANNOVER DIGGI #1",
-        date: "07.03.2026 | 10:00 - 22:00 Uhr",
-        location: "Hannover, Deutschland",
-        category: "Regional",
-        stage: "Singles",
-        tags: ["Regional", "Singles"]
-      },
-      {
-        title: "EINDHOVEN GAME FESTIVAL 2026",
-        date: "14.03.2026 | 09:00 - 23:00 Uhr",
-        location: "Eindhoven, Niederlande",
-        category: "Major",
-        stage: "Singles",
-        tags: ["Major", "Singles", "Doubles"]
-      },
-      {
-        title: "UNITED WAVEDASH VOL. 2",
-        date: "14.03.2026 | 11:00 - 20:00 Uhr",
-        location: "Zürich, Österreich",
-        category: "Major",
-        stage: "Singles",
-        tags: ["Major", "Singles"]
-      },
-      {
-        title: "COIN CUP 3",
-        date: "14.03.2026 | 12:30 - 20:00 Uhr",
-        location: "Köln, Deutschland",
-        category: "Regional",
-        stage: "Singles",
-        tags: ["Regional", "Singles"]
-      },
-      {
-        title: "SAPF 2",
-        date: "10.04 - 12.04.2026",
-        location: "Hannover, Deutschland",
-        category: "Major",
-        stage: "All",
-        tags: ["Major", "Singles", "Doubles", "Wii-U", "Arena", "Street Slam"]
-      }
-    ] -%}
-    
+    <!-- Events are fetched from Google Sheets via _data/events.js -->
     {%- for event in events %}
+    {%- if event['Startgg Slug'] %}
     <div class="group bg-slate-800 rounded-lg overflow-hidden border border-slate-700 hover:border-orange-500 transition">
       <div class="p-6 space-y-4">
         <div class="flex flex-wrap gap-2">
-          {%- for tag in event.tags %}
+          {%- for tag in event.Tags %}
           <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full 
             {%- if tag == 'Weekly' %} bg-blue-600 text-white
             {%- elif tag == 'Monthly' %} bg-purple-600 text-white
@@ -104,18 +46,24 @@ title: German Melee - Events & Turniere
           {%- endfor %}
         </div>
         
-        <h3 class="text-xl font-bold text-orange-500 group-hover:text-orange-400 transition">{{ event.title }}</h3>
+        <h3 class="text-xl font-bold text-orange-500 group-hover:text-orange-400 transition">{{ event.Titel }}</h3>
         
         <div class="text-sm text-slate-300 space-y-1">
-          <p>{{ event.date }}</p>
-          <p>{{ event.location }}</p>
+          <p>{{ event.Datum }} | {{ event.Uhrzeit }} Uhr</p>
+          <p>{{ event.Ort }}</p>
         </div>
         
-        <button class="w-full mt-6 bg-orange-600 hover:bg-orange-700 transition text-white font-semibold py-2 px-4 rounded uppercase text-sm">
+        <a
+          class="w-full mt-6 bg-orange-600 hover:bg-orange-700 transition text-white font-semibold py-2 px-4 rounded uppercase text-sm text-center"
+          href="https://www.start.gg/tournament/{{ event['Startgg Slug'] }}"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           Mehr Details & Anmeldung
-        </button>
+        </a>
       </div>
     </div>
+    {%- endif %}
     {%- endfor %}
   </div>
 </main>

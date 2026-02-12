@@ -15,19 +15,15 @@ title: German Melee - Events & Turniere
       </svg>
     </button>
     <ul class="hidden md:flex gap-8 text-sm">
-      <li><a href="#" class="hover:text-orange-500 transition">WEEKLIES</a></li>
-      <li><a href="#" class="hover:text-orange-500 transition">MONTHLIES</a></li>
-      <li><a href="#" class="hover:text-orange-500 transition">REGIONALS</a></li>
-      <li><a href="#" class="hover:text-orange-500 transition">MAJORS</a></li>
-      <li class="border-l border-slate-700 pl-8 flex gap-4">
-        <a href="{{ configuration.discord }}" target="_blank" rel="noopener noreferrer" title="Discord" class="hover:text-orange-500 transition">
-          <i class="fab fa-discord fa-lg"></i>
+      <li class="border-l border-slate-700 pl-8 flex gap-6 *:hover:text-orange-500 *:transition">
+        <a href="{{ configuration.discord }}" target="_blank" rel="noopener noreferrer" title="Discord">
+          <i class="fab fa-discord fa-lg fa-1-5x"></i>
         </a>
-        <a href="{{ configuration.twitch }}" target="_blank" rel="noopener noreferrer" title="Twitch" class="hover:text-orange-500 transition">
-          <i class="fab fa-twitch fa-lg"></i>
+        <a href="{{ configuration.twitch }}" target="_blank" rel="noopener noreferrer" title="Twitch">
+          <i class="fab fa-twitch fa-lg fa-1-5x"></i>
         </a>
-        <a href="{{ configuration.twitter }}" target="_blank" rel="noopener noreferrer" title="Twitter" class="hover:text-orange-500 transition">
-          <i class="fab fa-x-twitter fa-lg"></i>
+        <a href="{{ configuration.twitter }}" target="_blank" rel="noopener noreferrer" title="Twitter">
+          <i class="fab fa-x-twitter fa-lg fa-1-5x"></i>
         </a>
       </li>
     </ul>
@@ -40,55 +36,117 @@ title: German Melee - Events & Turniere
     <p class="text-slate-400 max-w-2xl">Alles zur deutschen Super Smash Bros. Melee Szene.</p>
   </section>
 
-  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+  <div id="filter-buttons" class="mb-8 flex flex-wrap gap-3 *:px-4 *:py-2 *:rounded-lg *:font-semibold *:text-sm *:transition text-white *:cursor-pointer">
+    <button class="bg-slate-600 hover:bg-slate-700" data-filter="all">
+      ALLE EVENTS
+    </button>
+    <button class="bg-blue-600 hover:bg-blue-700" data-filter="Weekly">
+      WEEKLIES
+    </button>
+    <button class="bg-purple-600 hover:bg-purple-700" data-filter="Monthly">
+      MONTHLIES
+    </button>
+    <button class="bg-green-600 hover:bg-green-700" data-filter="Regional">
+      REGIONALS
+    </button>
+    <button class="bg-red-600 hover:bg-red-700" data-filter="Major">
+      MAJORS
+    </button>
+  </div>
+
+  <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3" id="events-grid">
     <!-- Events are fetched from Google Sheets via _data/events.js -->
     {%- for event in events %}
-    {%- if event.Titel and event.Sichtbar !== "FALSE" %}
-    <div class="group bg-slate-800 rounded-lg overflow-hidden border border-slate-700 hover:border-orange-500 transition">
-      <div class="p-6 space-y-4">
-        <div class="flex flex-wrap gap-2">
-          {%- for tag in event.Tags %}
-          <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full 
-            {%- if tag == 'Weekly' %} bg-blue-600 text-white
-            {%- elif tag == 'Monthly' %} bg-purple-600 text-white
-            {%- elif tag == 'Regional' %} bg-green-600 text-white
-            {%- elif tag == 'Major' %} bg-red-600 text-white
-            {%- else %} bg-slate-700 text-slate-300
-            {%- endif %} uppercase">
-            {{ tag }}
-          </span>
-          {%- endfor %}
+      {%- if event.Titel and event.Sichtbar !== "FALSE" %}
+      <div class="event-card group bg-slate-800 rounded-lg overflow-hidden border border-slate-700 hover:border-orange-500 transition" data-kategorie="{{ event.Kategorie }}">
+        <div class="p-6 space-y-4">
+          <div class="flex flex-wrap gap-2 justify-between items-start">
+            <div class="flex flex-wrap gap-2">
+              {%- for tag in event.Tags %}
+              <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full 
+                {%- if tag == 'Weekly' %} bg-blue-600 text-white
+                {%- elif tag == 'Monthly' %} bg-purple-600 text-white
+                {%- elif tag == 'Regional' %} bg-green-600 text-white
+                {%- elif tag == 'Major' %} bg-red-600 text-white
+                {%- else %} bg-slate-700 text-slate-300
+                {%- endif %} uppercase">
+                {{ tag }}
+              </span>
+              {%- endfor %}
+            </div>
+            <span class="inline-block px-3 py-1 text-xs font-semibold rounded-full whitespace-nowrap shrink-0
+              {%- if event.Kategorie == 'Weekly' %} bg-blue-600 text-white
+              {%- elif event.Kategorie == 'Monthly' %} bg-purple-600 text-white
+              {%- elif event.Kategorie == 'Regional' %} bg-green-600 text-white
+              {%- elif event.Kategorie == 'Major' %} bg-red-600 text-white
+              {%- else %} bg-slate-700 text-slate-300
+              {%- endif %} uppercase">
+              {{ event.Kategorie }}
+            </span>
+          </div>
+          
+          <h3 class="text-xl font-bold text-orange-500 group-hover:text-orange-400 transition">{{ event.Titel }}</h3>
+          
+          <div class="text-sm text-slate-300 space-y-1">
+            <p>{{ event.Datum }} | {{ event.Uhrzeit }} Uhr</p>
+            <p>{{ event.Ort }}</p>
+          </div>
+          
+          <a
+            class="w-full mt-6 bg-orange-600 hover:bg-orange-700 transition text-white font-semibold py-2 px-4 rounded uppercase text-sm text-center"
+            href="{{ event.Link }}"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {%- if event.Link and 'start.gg' in event.Link %}
+            Mehr Details & Anmeldung
+            {%- else %}
+            Mehr Details
+            {%- endif %}
+          </a>
         </div>
-        
-        <h3 class="text-xl font-bold text-orange-500 group-hover:text-orange-400 transition">{{ event.Titel }}</h3>
-        
-        <div class="text-sm text-slate-300 space-y-1">
-          <p>{{ event.Datum }} | {{ event.Uhrzeit }} Uhr</p>
-          <p>{{ event.Ort }}</p>
-        </div>
-        
-        <a
-          class="w-full mt-6 bg-orange-600 hover:bg-orange-700 transition text-white font-semibold py-2 px-4 rounded uppercase text-sm text-center"
-          href="{{ event.Link }}"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {%- if event.Link and 'start.gg' in event.Link %}
-          Mehr Details & Anmeldung
-          {%- else %}
-          Mehr Details
-          {%- endif %}
-        </a>
       </div>
-    </div>
-    {%- endif %}
+      {%- endif %}
     {%- endfor %}
+  </div>
+  <div id="events-empty" class="hidden mt-8 rounded-lg border border-slate-700 bg-slate-800/60 px-6 py-8 text-center text-slate-300">
+    Keine Events gefunden.
   </div>
 </main>
 
 <script>
+  // Filter buttons
+  document.querySelectorAll('#filter-buttons button').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      const filter = this.dataset.filter;
+      
+      // Update active state
+      document.querySelectorAll('#filter-buttons button').forEach(b => b.classList.remove('bg-slate-600'));
+      this.classList.add('bg-slate-600');
+      
+      // Filter events
+      let visibleCount = 0;
+      document.querySelectorAll('.event-card').forEach(card => {
+        const kategorie = card.dataset.kategorie;
+        const isVisible = filter === 'all' || kategorie === filter;
+        card.style.display = isVisible ? '' : 'none';
+        if (isVisible) {
+          visibleCount += 1;
+        }
+      });
+
+      const emptyState = document.getElementById('events-empty');
+      if (emptyState) {
+        emptyState.classList.toggle('hidden', visibleCount > 0);
+      }
+    });
+  });
+
+  // Mobile menu
   const menuBtn = document.getElementById('menu-btn');
   menuBtn?.addEventListener('click', () => {
     alert('Mobile menu would go here');
   });
 </script>
+

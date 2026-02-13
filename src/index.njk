@@ -70,6 +70,10 @@ title: German Melee - Events & Turniere
     {%- for event in events %}
       {%- if event.Titel and event.Sichtbar !== "FALSE" %}
       <div class="event-card group bg-slate-800 rounded-lg overflow-hidden border border-slate-700 hover:border-orange-500 transition" data-kategorie="{{ event.Kategorie }}">
+        <div class="h-48 w-full overflow-hidden bg-slate-700">
+          <img src="{{ event.image }}" alt="{{ event.Titel }}"
+            class="w-full h-full object-cover group-hover:scale-105 transition duration-300" loading="lazy" />
+        </div>
         <div class="p-6 space-y-4">
           <div class="flex flex-wrap gap-2 justify-between items-start">
             <div class="flex flex-wrap gap-2">
@@ -162,4 +166,3 @@ title: German Melee - Events & Turniere
     alert('Mobile menu would go here');
   });
 </script>
-

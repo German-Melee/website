@@ -20,6 +20,12 @@ jobs:
         with:
           node-version: latest
           cache: npm
+      - uses: actions/cache@v4
+        with:
+          path: og-images-cache.json
+          key: og-images-cache-${{ github.run_id }}
+          restore-keys: |
+            og-images-cache-
       - run: npm ci && npm run build
         env:
           GOOGLE_SPREADSHEET_ID: ${{ secrets.GOOGLE_SPREADSHEET_ID }}

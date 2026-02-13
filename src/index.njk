@@ -92,18 +92,20 @@ title: German Melee - Events & Turniere
             <p>{{ event.Ort }}</p>
           </div>
           
-          <a
-            class="w-full mt-6 bg-orange-600 hover:bg-orange-700 transition text-white font-semibold py-2 px-4 rounded uppercase text-sm text-center"
-            href="{{ event.Link }}"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {%- if event.Link and 'start.gg' in event.Link %}
-            Mehr Details & Anmeldung
-            {%- else %}
-            Mehr Details
-            {%- endif %}
-          </a>
+          {% if event.Link %}
+            <a
+              class="w-full mt-6 bg-orange-600 hover:bg-orange-700 transition text-white font-semibold py-2 px-4 rounded uppercase text-sm text-center"
+              href="{{ event.Link }}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {%- if 'start.gg' in event.Link %}
+                Mehr Details & Anmeldung
+              {%- else %}
+                Mehr Details
+              {%- endif %}
+            </a>
+          {%- endif %}
         </div>
       </div>
       {%- endif %}

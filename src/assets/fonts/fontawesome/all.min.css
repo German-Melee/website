@@ -36,6 +36,14 @@
   content: "\e61b";
 }
 
+.fa-youtube:before {
+  content: "\f167";
+}
+
+.fa-bluesky:before {
+  content: "\e671";
+}
+
 /* Size classes */
 .fa-1-5x {
   font-size: 1.5em;

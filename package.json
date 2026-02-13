@@ -1,9 +1,9 @@
 {
   "type": "module",
   "scripts": {
-    "dev": "npx @11ty/eleventy --serve",
-    "build": "npx @11ty/eleventy",
-    "build-github-pages": "npx @11ty/eleventy --pathprefix=/website/"
+    "dev": "@11ty/eleventy --serve",
+    "build": "@11ty/eleventy",
+    "build-github-pages": "@11ty/eleventy --pathprefix=/website/"
   },
   "dependencies": {
     "@11ty/eleventy": "^3.1.2",

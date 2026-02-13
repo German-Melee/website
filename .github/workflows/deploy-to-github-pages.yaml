@@ -20,7 +20,7 @@ jobs:
         with:
           node-version: latest
           cache: npm
-      - run: npm ci && npm run build-github-pages
+      - run: npm ci && npm run build
         env:
           GOOGLE_SPREADSHEET_ID: ${{ secrets.GOOGLE_SPREADSHEET_ID }}
           GOOGLE_CLOUD_PLATFORM_API_KEY: ${{ secrets.GOOGLE_CLOUD_PLATFORM_API_KEY }}

@@ -1,6 +1,7 @@
 import "dotenv/config";
 import fs from "node:fs";
 import { getSpreadsheet } from "../_lib/google-sheets.js";
+import { fetchStartGG } from "../_lib/start-gg.js";
 
 // Parse date string in format "DD.MM.YYYY"
 const parseDate = (dateStr) => {
@@ -8,6 +9,42 @@ const parseDate = (dateStr) => {
 	const [day, month, year] = dateStr.split(".");
 	return new Date(year, month - 1, day);
 };
+
+/**
+ * Extract slug from start.gg URL
+ * @param {string} url - start.gg URL
+ * @returns {string|null} - Tournament slug or null
+ */
+function extractStartGGSlug(url) {
+	if (!url || !url.includes("start.gg")) {
+		return null;
+	}
+	const match = url.match(/start\.gg\/tournament\/([^/?#]+)/);
+	return match ? match[1] : null;
+}
+
+/**
+ * Fetch number of attendees for a start.gg tournament
+ * @param {string} slug - Tournament slug
+ * @returns {Promise<number|null>} - Number of attendees or null
+ */
+async function fetchAttendees(slug) {
+	try {
+		const data = await fetchStartGG({
+			query: `
+				query Caps {
+					tournament(slug: "${slug}") {
+						numAttendees
+					}
+				}
+			`,
+		});
+		return data?.tournament?.numAttendees || null;
+	} catch (err) {
+		console.error(`Failed to fetch attendees for ${slug}:`, err.message);
+		return null;
+	}
+}
 
 /**
  * The returned data will be available as `events` in templates
@@ -18,12 +55,18 @@ export default async function () {
 	console.log("events", events);
 
 	const enrichedEvents = await Promise.all(
-		events.map(async (event) => ({
-			...event,
-			Tags: event.Tags.split(",").map((tag) => tag.trim()),
-			parsedDate: parseDate(event.Datum),
-			image: await getOgImage(event.Link),
-		})),
+		events.map(async (event) => {
+			const slug = extractStartGGSlug(event.Link);
+			const numAttendees = slug ? await fetchAttendees(slug) : null;
+
+			return {
+				...event,
+				Tags: event.Tags.split(",").map((tag) => tag.trim()),
+				parsedDate: parseDate(event.Datum),
+				image: await getOgImage(event.Link),
+				numAttendees,
+			};
+		}),
 	);
 
 	return enrichedEvents.toSorted((a, b) => a.parsedDate - b.parsedDate);

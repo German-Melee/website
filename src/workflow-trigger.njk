@@ -1,0 +1,44 @@
+---
+layout: base
+title: german-melee.de workflow trigger - App Information
+description: App information for Google Cloud verification of the german-melee.de workflow trigger.
+---
+
+<main class="max-w-4xl mx-auto px-6 py-12">
+  <h1 class="text-4xl font-bold mb-8">german-melee.de workflow trigger</h1>
+
+  <div class="prose prose-invert max-w-none space-y-6">
+    <section>
+      <h2 class="text-2xl font-semibold mb-4 text-amber-500">App Identity</h2>
+      <p>
+        App name: <strong>german-melee.de workflow trigger</strong>.
+      </p>
+      <p>
+        This app is owned and operated by the German Melee Community and is used only by
+        site administrators.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-4 text-amber-500">What the App Does</h2>
+      <p>
+        The app is a small Google Apps Script bound to a Google Sheet. It adds a custom
+        menu item in Google Sheets that, when clicked, sends a request to GitHub to trigger
+        the website deployment workflow for german-melee.de.
+      </p>
+      <p>
+        The script only performs this workflow trigger and does not provide any other
+        features or services.
+      </p>
+    </section>
+
+    <section>
+      <h2 class="text-2xl font-semibold mb-4 text-amber-500">Data Access and Use</h2>
+      <p>
+        The app does not read or store spreadsheet contents. It uses a stored GitHub token
+        to authenticate the workflow trigger request and shows a success or error message
+        in the spreadsheet UI. No Google user data is collected, shared, or sold.
+      </p>
+    </section>
+  </div>
+</main>

@@ -105,6 +105,9 @@ title: German Melee - Events & Turniere
           <div class="text-sm text-slate-300 space-y-1">
             <p>{{ event.Datum }}{% if event.Enddatum %} - {{ event.Enddatum }}{% endif %}</p>
             <p>{{ event.Ort }}</p>
+            {%- if event.Playercap and event.Playercap != '' %}
+            <p class="flex items-center gap-1">max {{ event.Playercap }} <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></p>
+            {%- endif %}
           </div>
           
           {% if event.Link %}

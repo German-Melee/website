@@ -30,6 +30,7 @@ jobs:
         env:
           GOOGLE_SPREADSHEET_ID: ${{ secrets.GOOGLE_SPREADSHEET_ID }}
           GOOGLE_CLOUD_PLATFORM_API_KEY: ${{ secrets.GOOGLE_CLOUD_PLATFORM_API_KEY }}
+          STARTGG_API_KEY: ${{ secrets.STARTGG_API_KEY }}
       - uses: actions/upload-pages-artifact@v4
         with:
           path: ./_site

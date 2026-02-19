@@ -1,3 +1,5 @@
+import Fetch from "@11ty/eleventy-fetch";
+
 /**
  * Fetch data from start.gg GraphQL API
  * @param {Object} params - Configuration object
@@ -11,15 +13,16 @@ export async function fetchStartGG({ query, variables = {} }) {
 		throw new Error("STARTGG_API_KEY is undefined. Check your .env file.");
 	}
 
-	const response = await fetch("https://api.start.gg/gql/alpha", {
-		method: "POST",
-		headers: {
-			Authorization: `Bearer ${apiKey}`,
+	const json = await Fetch("https://api.start.gg/gql/alpha", {
+		type: "json",
+		fetchOptions: {
+			method: "POST",
+			headers: {
+				Authorization: `Bearer ${apiKey}`,
+			},
+			body: JSON.stringify({ query, variables }),
 		},
-		body: JSON.stringify({ query, variables }),
 	});
-
-	const json = await response.json();
 
 	// Validate basic response structure
 	if (!json || (typeof json !== "object" && !("data" in json))) {

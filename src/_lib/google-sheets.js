@@ -1,3 +1,5 @@
+import Fetch from "@11ty/eleventy-fetch";
+
 /**
  * Fetches a sheet from Google Spreadsheet
  * @param {string} sheetName - The name of the sheet to fetch
@@ -15,15 +17,9 @@ export async function getSpreadsheet(sheetName) {
 
 	const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
 
-	const response = await fetch(url);
-
-	if (!response.ok) {
-		throw new Error(
-			`Failed to fetch sheet: ${response.statusText}. Response: ${await response.text()}`,
-		);
-	}
-
-	const json = await response.json();
+	const json = await Fetch(url, { type: "json" });
+	console.log("json.values", json.values);
+	console.log("json", json);
 	const [headerRow, ...dataRows] = json.values || [];
 
 	return dataRows.map((row) =>

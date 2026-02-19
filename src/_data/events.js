@@ -2,6 +2,7 @@ import "dotenv/config";
 import fs from "node:fs";
 import { getSpreadsheet } from "../_lib/google-sheets.js";
 import { fetchStartGG } from "../_lib/start-gg.js";
+import Fetch from "@11ty/eleventy-fetch";
 
 // Parse date string in format "DD.MM.YYYY"
 const parseDate = (dateStr) => {
@@ -52,7 +53,7 @@ async function fetchAttendees(slug) {
 export default async function () {
 	const events = await getSpreadsheet("Turniere");
 
-	console.log("events", events);
+	// console.log("events", events);
 
 	const enrichedEvents = await Promise.all(
 		events.map(async (event) => {
@@ -96,8 +97,7 @@ async function getOgImage(url) {
 	}
 
 	try {
-		const response = await fetch(url);
-		const html = await response.text();
+		const html = await Fetch(url, { type: "text" });
 
 		const match = html.match(
 			/<meta[^>]+property=["']og:image["'][^>]*content=["']([^"']+)["']/i,

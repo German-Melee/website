@@ -22,20 +22,10 @@ export async function getSpreadsheet(sheetName) {
 	console.log("json", json);
 	const [headerRow, ...dataRows] = json.values || [];
 
-	const result = dataRows.map((row) =>
+	return dataRows.map((row) =>
 		headerRow.reduce(
 			(prev, cur, index) => ({ ...prev, [cur]: row[index] || "" }),
 			{},
 		),
 	);
-
-	// DEBUG: Log the result to see what we're actually getting
-	console.log("DEBUG getSpreadsheet result - entries with Sichtbar column:");
-	result.forEach((item, idx) => {
-		if (item.Titel) {
-			console.log(`  [${idx}] ${item.Titel}: Sichtbar="${item.Sichtbar}" (type: ${typeof item.Sichtbar}, length: ${item.Sichtbar?.length})`);
-		}
-	});
-
-	return result;
 }

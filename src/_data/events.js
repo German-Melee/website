@@ -55,27 +55,19 @@ export default async function () {
 
 	// console.log("events", events);
 
-	// DEBUG: Log Sichtbar values and types
-	console.log("DEBUG: All events Sichtbar values:");
-	events.forEach((event, idx) => {
-		console.log(`  Event ${idx}: "${event.Titel}" - Sichtbar: ${JSON.stringify(event.Sichtbar)} (type: ${typeof event.Sichtbar})`);
-	});
-
 	const enrichedEvents = await Promise.all(
-		events
-			.filter((event) => event.Sichtbar === "TRUE")
-			.map(async (event) => {
-				const slug = extractStartGGSlug(event.Link);
-				const numAttendees = slug ? await fetchAttendees(slug) : null;
+		events.map(async (event) => {
+			const slug = extractStartGGSlug(event.Link);
+			const numAttendees = slug ? await fetchAttendees(slug) : null;
 
-				return {
-					...event,
-					Tags: event.Tags.split(",").map((tag) => tag.trim()),
-					parsedDate: parseDate(event.Datum),
-					image: await getOgImage(event.Link),
-					numAttendees,
-				};
-			}),
+			return {
+				...event,
+				Tags: event.Tags.split(",").map((tag) => tag.trim()),
+				parsedDate: parseDate(event.Datum),
+				image: await getOgImage(event.Link),
+				numAttendees,
+			};
+		}),
 	);
 
 	return enrichedEvents.toSorted((a, b) => a.parsedDate - b.parsedDate);
@@ -117,11 +109,8 @@ async function getOgImage(url) {
 		fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
 		return image;
 	} catch (err) {
-		console.warn(
-			`Failed to fetch OpenGraph image for URL: ${url}, using fallback. Error: ${err.message}`,
+		throw new Error(
+			`Failed to fetch OpenGraph image for URL: ${url}\nError: ${err}`,
 		);
-		cache[url] = FALLBACK_IMAGE;
-		fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 2));
-		return FALLBACK_IMAGE;
 	}
 }

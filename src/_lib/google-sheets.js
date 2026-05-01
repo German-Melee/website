@@ -20,10 +20,6 @@ export async function getSpreadsheet(sheetName) {
 	const json = await Fetch(url, { type: "json" });
 	const [headerRow, ...dataRows] = json.values || [];
 
-	// Log raw data for debugging
-	console.log(`=== RAW GOOGLE SHEETS DATA FOR "${sheetName}" ===`);
-	console.log(JSON.stringify(json, null, 2));
-
 	return dataRows.map((row) =>
 		headerRow.reduce(
 			(prev, cur, index) => ({ ...prev, [cur]: row[index] || "" }),

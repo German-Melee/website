@@ -18,9 +18,11 @@ export async function getSpreadsheet(sheetName) {
 	const url = `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}?key=${apiKey}`;
 
 	const json = await Fetch(url, { type: "json" });
-	console.log("json.values", json.values);
-	console.log("json", json);
 	const [headerRow, ...dataRows] = json.values || [];
+
+	// Log raw data for debugging
+	console.log(`=== RAW GOOGLE SHEETS DATA FOR "${sheetName}" ===`);
+	console.log(JSON.stringify(json, null, 2));
 
 	return dataRows.map((row) =>
 		headerRow.reduce(
